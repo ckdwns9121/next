@@ -154,31 +154,13 @@ export async function getServerSideProps(ctx) {
 
 장점은 호출 시 매번 data fetch를 하지 않으니 `getServerSideProps`보다 성능이 좋다.
 
-## 페이지 이동은 Link 태그로
+## 내장 CSS
 
-- a태그로 페이지 이동하면 안된다. (새로고침됨)
-- Link 태그 내부에 a태그를 사용하는 이유는 스타일링 때문(?)
-- Link 태그는 href 때문에 사용 only
+### css module
 
-```js
-import Link from 'next/link';
-export default function NavBar() {
-  return (
-    <nav>
-      <Link href="/">
-        <a>Home</a>
-      </Link>
-      <Link href="/about">
-        <a>about</a>
-      </Link>
-    </nav>
-  );
-}
-```
+- css module 지원 [name].module.css
 
-- useRouter 훅
-
-## Styles JSX
+### Styles JSX
 
 - `style` 태그로 스타일링 할 수 있다.
 - 파일 import 할 필요없이 js 내에서 사용할 수 있어서 편하다.
@@ -204,13 +186,62 @@ global style 적용하는 방법
 </style>
 ```
 
+## 페이지 이동은 Link 태그로
+
+- a태그로 페이지 이동하면 안된다. (새로고침됨)
+- Link 태그 내부에 a태그를 사용하는 이유는 스타일링 때문(?)
+- Link 태그는 href 때문에 사용 only
+
+```js
+import Link from 'next/link';
+export default function NavBar() {
+  return (
+    <nav>
+      <Link href="/">
+        <a>Home</a>
+      </Link>
+      <Link href="/about">
+        <a>about</a>
+      </Link>
+    </nav>
+  );
+}
+```
+
+- useRouter 훅
+
 ## Custom App
+
+React를 사용하면 재사용 되는 컴포넌트들이 있다.
 
 NextJS는 `_app.js`내의 우리가 작성한 컴포넌트를 App 컴포넌트의 Props로 전달한다.
 
 ```js
+// ./_app.js
+import Layout from '../components/layout'
 export default function App({ Component, pageProps }) {
-  return <Component {...pageProps} />;
+  return (
+    <Layout/>
+    <Component {...pageProps} />
+    <Layout>
+    )
+}
+```
+
+```js
+// components/layout.js
+
+import Navbar from './navbar';
+import Footer from './footer';
+
+export default function Layout({ children }) {
+  return (
+    <>
+      <Navbar />
+      <main>{children}</main>
+      <Footer />
+    </>
+  );
 }
 ```
 
