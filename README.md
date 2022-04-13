@@ -103,8 +103,7 @@ const About = () => {
   return (
     <div className="About">
       <h1>여기는 About 페이지요!</h1>
-      {list.length &&
-        list.slice(0, 10).map(item => <li key={item.id}>{item.title}</li>)}
+      {list.length && list.slice(0, 10).map(item => <li key={item.id}>{item.title}</li>)}
     </div>
   );
 };
@@ -276,3 +275,7 @@ const nextConfig = {
 
 module.exports = nextConfig;
 ```
+
+## 참고자료
+
+[React 개발이 이렇게 쉬웠나?](https://geonlee.tistory.com/229)
